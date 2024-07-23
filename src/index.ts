@@ -15,7 +15,7 @@ app.post(config.frontendRoute, async (c) => {
         const randomKey = await saveUrl(c.env, body.url, Number(config.urlLength))
         return c.json({ status: 'success', message: randomKey }, 200)
     } else {
-        return c.json({ status: 'error', message: 'Error: Invalid URL.' }, 400)
+        return c.json({ status: 'error', message: 'Invalid URL.' }, 400)
     }
 })
 
