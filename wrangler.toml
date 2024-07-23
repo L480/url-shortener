@@ -1,0 +1,11 @@
+name = "url-shortener"
+main = "src/index.ts"
+compatibility_date = "2024-06-03"
+
+// routes = [
+//     { pattern = "INSERT_CUSTOM_DOMAIN", custom_domain = true }
+// ]
+
+// kv_namespaces = [
+//   { binding = "kv", id = "INSERT_KV_ID" }
+// ]
