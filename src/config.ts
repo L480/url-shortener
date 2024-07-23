@@ -1,4 +1,3 @@
 export const config = {
-    frontendRoute: '/config',
-    urlLength: 3
+    frontendRoute: '/shorten'
 }

@@ -12,8 +12,8 @@ app.post(config.frontendRoute, async (c) => {
     const body: ApiRequestBody = await c.req.json()
     const isValidUrl = validateUrl(body.url)
     if (isValidUrl) {
-        const randomKey = await saveUrl(c.env, body.url, Number(config.urlLength))
-        return c.json({ status: 'success', message: randomKey }, 200)
+        const hash = await saveUrl(c.env, body.url)
+        return c.json({ status: 'success', message: hash }, 200)
     } else {
         return c.json({ status: 'error', message: 'Invalid URL.' }, 400)
     }
@@ -26,9 +26,9 @@ app.get(config.frontendRoute, async (c) => {
 app.get('/*', async (c) => {
     const path = c.req.path.split('/')[1]
     if (path) {
-        const value = await c.env.kv.get(path)
-        if (value) {
-            const resp = redirectHtml.replace(/{Replace}/gm, value) // Hide referrer header
+        const { value, metadata }: KVNamespaceGetWithMetadataResult<string, Metadata> = await c.env.KV.getWithMetadata(path);
+        if (value && metadata) {
+            const resp = redirectHtml.replace(/{Replace}/gm, metadata.url) // Hide referrer header
             return c.html(resp)
         } else {
             return c.text('Not found.', 404)

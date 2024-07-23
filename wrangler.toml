@@ -2,10 +2,13 @@ name = "url-shortener"
 main = "src/index.ts"
 compatibility_date = "2024-06-03"
 
+[vars]
+URL_LENGTH = 3 # Increase this value if many URL creations are expected. This will reduce the read operations on the KV, resulting in lower costs.
+
 # routes = [
 #     { pattern = "INSERT_CUSTOM_DOMAIN", custom_domain = true }
 # ]
 
 # kv_namespaces = [
-#   { binding = "kv", id = "INSERT_KV_ID" }
+#   { binding = "KV", id = "INSERT_KV_ID" }
 # ]

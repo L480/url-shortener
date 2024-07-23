@@ -1,5 +1,6 @@
 type Bindings = {
-    kv: KVNamespace
+    KV: KVNamespace
+    URL_LENGTH: string
 }
 
 interface Metadata {

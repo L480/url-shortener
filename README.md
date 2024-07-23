@@ -14,7 +14,7 @@ Serverless URL shortener based on Cloudflare Workers and Cloudflare Workers KV.
 
 ### 3. Grab Your Worker URL
 
-Grab your Worker URL and go to `https://url-shortener.my-account.workers.dev/config`.
+Grab your Worker URL and go to `https://url-shortener.my-account.workers.dev/shorten`.
 
 ### 4. Shorten Your First URL
 
