@@ -16,6 +16,9 @@ Serverless URL shortener based on Cloudflare Workers and Cloudflare Workers KV.
 
 Grab your Worker URL and go to `https://url-shortener.my-account.workers.dev/shorten`.
 
+> [!TIP]
+> Use [Cloudflare Access](https://developers.cloudflare.com/cloudflare-one/applications/configure-apps/self-hosted-apps/) to protect the `/shorten` route behind an Entra ID authentication.
+
 ### 4. Shorten Your First URL
 
 ![Shorten Your First URL](/images/shorten-url.png "Shorten Your First URL")
