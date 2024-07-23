@@ -8,7 +8,7 @@ Serverless URL shortener based on Cloudflare Workers and Cloudflare Workers KV.
 
 [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/L480/url-shortener)
 
-### 2. Create KV Binding
+### 2. Create KV and KV Binding
 
 ![Create KV Binding](/images/kv-binding.png "Create KV Binding")
 
