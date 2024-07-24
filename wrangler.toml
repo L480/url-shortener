@@ -2,9 +2,6 @@ name = "url-shortener"
 main = "src/index.ts"
 compatibility_date = "2024-06-03"
 
-[vars]
-URL_LENGTH = 3 # Increase this value if many URL creations are expected. This will reduce the read operations on the KV, resulting in lower costs.
-
 # routes = [
 #     { pattern = "INSERT_CUSTOM_DOMAIN", custom_domain = true }
 # ]
@@ -12,3 +9,7 @@ URL_LENGTH = 3 # Increase this value if many URL creations are expected. This wi
 # kv_namespaces = [
 #   { binding = "KV", id = "INSERT_KV_ID" }
 # ]
+
+[vars]
+ALIAS_LENGTH = "3" # Increase this value if many alias creations are expected. This will reduce the read operations on the KV namespace, resulting in lower costs.
+SALT = "tX5PbT"    # Salt which is being used during hash creation.

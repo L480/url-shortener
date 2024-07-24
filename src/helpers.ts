@@ -13,12 +13,12 @@ export function validateUrl(url: string) {
 }
 
 /**
- * Creates SHA-1 hash.
+ * Creates hash.
  * @param {string} str String to be hashed.
- * @returns {string} SHA-1 hash.
+ * @returns {string} Hash.
  */
-async function sha1(str: string) {
-    const encodedString = new TextEncoder().encode(str)
+async function createHash(str: string, salt: string) {
+    const encodedString = new TextEncoder().encode(str + salt)
     const hashBuffer = await crypto.subtle.digest(
         {
             name: 'SHA-1',
@@ -26,19 +26,22 @@ async function sha1(str: string) {
         encodedString
     )
     const hashArray = Array.from(new Uint8Array(hashBuffer))
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('')
-    return hashHex
+    const hashString = hashArray.map(byte => String.fromCharCode(byte)).join('')
+    const hashBase64 = btoa(hashString)
+    const finalHash = hashBase64.replace(/\+|\/|=/g, '')
+    return finalHash
 }
 
 /**
- * Saves URL to Cloudflare Workers KV.
+ * Saves URL to Cloudflare Workers KV namespace.
  * @param {Bindings} env Cloudflare Workers Binding.
  * @param {string} url URL to be shortened.
- * @returns {string} Hash which is being used as short URL route.
+ * @returns {string} Hash which is being used as alias.
  */
 export async function saveUrl(env: Bindings, url: string) {
-    let chars = Number(env.URL_LENGTH)
-    const hash = await sha1(url)
+    let chars = Number(env.ALIAS_LENGTH)
+    const salt = env.SALT
+    const hash = await createHash(url, salt)
     let shortHash = hash.slice(0, chars)
     let hashInKv = await env.KV.get(shortHash)
     if (hashInKv) {
@@ -60,4 +63,3 @@ export async function saveUrl(env: Bindings, url: string) {
     await env.KV.put(shortHash, hash, { metadata: { url: url } })
     return shortHash
 }
-
