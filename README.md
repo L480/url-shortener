@@ -10,7 +10,7 @@ Serverless URL shortener based on Cloudflare Workers and Cloudflare Workers KV.
 
 ### 2. Create KV Namespace and KV Binding
 
-![Create KV Binding](/images/kv-binding.png "Create KV Binding")
+<img src="/images/kv-binding.png" width="852" height="660">
 
 ### 3. Grab Your Worker URL
 
@@ -21,7 +21,7 @@ Grab your Worker URL and go to `https://url-shortener.my-account.workers.dev/sho
 
 ### 4. Shorten Your First URL
 
-![Shorten Your First URL](/images/shorten-url.png "Shorten Your First URL")
+<img src="/images/shorten-url.png" width="852" height="660">
 
 ## FAQ
 
