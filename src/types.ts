@@ -7,7 +7,3 @@ type Bindings = {
 interface Metadata {
     url: string
 }
-
-interface ApiRequestBody {
-    url: string
-}

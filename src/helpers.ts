@@ -36,7 +36,7 @@ async function createHash(str: string, salt: string) {
  * Saves URL to Cloudflare Workers KV namespace.
  * @param {Bindings} env Cloudflare Workers Binding.
  * @param {string} url URL to be shortened.
- * @returns {string} Hash which is being used as alias.
+ * @returns {string} URL alias.
  */
 export async function saveUrl(env: Bindings, url: string) {
     let chars = Number(env.ALIAS_LENGTH)
@@ -62,4 +62,18 @@ export async function saveUrl(env: Bindings, url: string) {
     }
     await env.KV.put(shortHash, hash, { metadata: { url: url } })
     return shortHash
+}
+
+/**
+ * Overwrite existing alias or save URL with custom alias to Cloudflare Workers KV namespace.
+ * @param {Bindings} env Cloudflare Workers Binding.
+ * @param {string} url URL to be shortened.
+ * @param {string} alias URL alias.
+ * @returns {string} URL alias.
+ */
+export async function overwriteUrl(env: Bindings, url: string, alias: string) {
+    const salt = env.SALT
+    const hash = await createHash(url, salt)
+    await env.KV.put(alias, hash, { metadata: { url: url } })
+    return alias
 }

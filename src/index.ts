@@ -1,21 +1,33 @@
 
 import { Hono } from 'hono'
+import { z } from 'zod'
+import { zValidator } from '@hono/zod-validator'
 import { frontendHtml, redirectHtml } from './html'
-import { validateUrl, saveUrl } from './helpers'
+import { validateUrl, saveUrl, overwriteUrl } from './helpers'
 import { config } from './config'
+
+const schema = z.object({
+    url: z.string(),
+    alias: z.string().optional(),
+})
 
 const app = new Hono<{ Bindings: Bindings }>()
 
 app.notFound((c) => c.text('Not found.', 404))
 
-app.post(config.frontendRoute, async (c) => {
-    const body: ApiRequestBody = await c.req.json()
+app.post(config.frontendRoute, zValidator('json', schema), async (c) => {
+    const body = c.req.valid('json')
     const isValidUrl = validateUrl(body.url)
     if (isValidUrl) {
-        const alias = await saveUrl(c.env, body.url)
-        return c.json({ status: 'success', message: alias }, 200)
+        let alias
+        if (!body.alias) {
+            alias = await saveUrl(c.env, body.url)
+        } else {
+            alias = await overwriteUrl(c.env, body.url, body.alias)
+        }
+        return c.json({ status: 'success', message: 'Alias has been created.', alias: alias }, 200)
     } else {
-        return c.json({ status: 'error', message: 'Invalid URL.' }, 400)
+        return c.json({ status: 'error', message: 'Invalid URL.', alias: null }, 400)
     }
 })
 

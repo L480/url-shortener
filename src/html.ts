@@ -104,7 +104,7 @@ export const frontendHtml = `
                     document.getElementById("searchbtn").disabled = false;
                     document.getElementById("searchbtn").innerHTML = ' Shorten it';
                     if (res.status == "success") {
-                        document.getElementById("result").innerHTML = 'https://' + window.location.host + '/' + res.message;
+                        document.getElementById("result").innerHTML = 'https://' + window.location.host + '/' + res.alias;
                     } else {
                         document.getElementById("result").innerHTML = res.message;
                     }
