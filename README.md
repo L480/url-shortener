@@ -2,6 +2,8 @@
 
 Serverless URL shortener based on Cloudflare Workers and Cloudflare Workers KV.
 
+![url-shortener](/images/header.png "url-shortener")
+
 ## Setup
 
 ### 1. Deploy Worker to Cloudflare
@@ -35,8 +37,3 @@ Grab your Worker URL and go to `https://url-shortener.my-account.workers.dev/sho
     - Only increase [`ALIAS_LENGTH`](wrangler.toml#L14) if your KV namespace is empty, otherwise duplicated aliases are being created.
 - Are the aliases the same across all deployed workers?
     - If you don't change the [`SALT`](wrangler.toml#L15) variable, the aliases will be the same.
-
-# Credits
-
-- Frontend by [xyTom](https://github.com/xyTom/Url-Shorten-Worker/blob/gh-pages/index.html)
-- Redirect loading page by [samharp](https://github.com/samharp/redirect-website-template/blob/main/loading.html)

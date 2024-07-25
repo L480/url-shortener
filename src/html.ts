@@ -1,209 +1,135 @@
-// Recycled from https://github.com/xyTom/Url-Shorten-Worker/blob/gh-pages/index.html
 export const frontendHtml = `
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 
 <head>
-    <meta http-equiv="content-type" content="txt/html; charset=utf-8" />
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" href="https://gcore.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
-        integrity="sha256-L/W5Wfqfa0sdBNIKN9cG6QA5F2qx4qICmU2VgLruv9Y=" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <title>URL Shortener</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            cursor: default;
-        }
-
-        html,
-        body {
-            height: 100%;
-        }
-
-        body {
-            display: -webkit-box;
-            display: flex;
-            -webkit-box-align: center;
-            align-items: center;
-            -webkit-box-pack: center;
-            justify-content: center;
-            vertical-align: center;
-            flex-wrap: wrap;
-            align-content: center;
-            color: #2a2b2c;
-            background-color: #ebedee;
-            overflow: hidden;
-        }
-
-        .card {
-            background-color: transparent;
-            width: 768px;
-        }
-
-        .card-text {
-            text-align: center;
-        }
-
-        .card-text>a {
-            text-decoration: none;
-            color: #007bff;
-        }
-
-        .card-text>a {
-            cursor: pointer;
-        }
-
-        .form-control {
-            cursor: auto;
-        }
-
-        @media (max-width: 769px) {
-            .card {
-                width: 80%;
-            }
-        }
-
-        @media (max-width: 420px) {
-            .card {
-                width: 95%;
-            }
-        }
-
-        @media (prefers-color-scheme: dark) {
-            body {
-                color: #d9d9d9;
-                background: #1b1b1b;
-            }
-
-            .card {
-                background-color: #252d38;
-            }
-        }
-    </style>
-    <script>
-        let res
-        function shorturl() {
-            if (document.querySelector("#text").value == "") {
-                alert("URL cannot be empty!")
-                return
-            }
-
-            document.getElementById("searchbtn").disabled = true;
-            document.getElementById("searchbtn").innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Please wait...';
-            fetch(window.location.pathname, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ url: document.querySelector("#text").value })
-            }).then(function (response) {
-                return response.json();
-            })
-                .then(function (myJson) {
-                    res = myJson;
-                    document.getElementById("searchbtn").disabled = false;
-                    document.getElementById("searchbtn").innerHTML = ' Shorten it';
-                    if (res.status == "success") {
-                        document.getElementById("result").innerHTML = 'https://' + window.location.host + '/' + res.alias;
-                    } else {
-                        document.getElementById("result").innerHTML = res.message;
-                    }
-                    $('#exampleModal').modal('show')
-                }).catch(function (err) {
-                    alert("Unknow error. Please try again!");
-                    console.log(err);
-                    document.getElementById("searchbtn").disabled = false;
-                    document.getElementById("searchbtn").innerHTML = ' Shorten it';
-                })
-        }
-        function copyurl(id, attr) {
-            let target = null;
-
-            if (attr) {
-                target = document.createElement('div');
-                target.id = 'tempTarget';
-                target.style.opacity = '0';
-                if (id) {
-                    let curNode = document.querySelector('#' + id);
-                    target.innerText = curNode[attr];
-                } else {
-                    target.innerText = attr;
-                }
-                document.body.appendChild(target);
-            } else {
-                target = document.querySelector('#' + id);
-            }
-
-            try {
-                let range = document.createRange();
-                range.selectNode(target);
-                window.getSelection().removeAllRanges();
-                window.getSelection().addRange(range);
-                document.execCommand('copy');
-                window.getSelection().removeAllRanges();
-                console.log('Copy success')
-            } catch (e) {
-                console.log('Copy error')
-            }
-
-            if (attr) {
-                // remove temp target
-                target.parentElement.removeChild(target);
-            }
-        }
-        $(function () {
-            $('[data-toggle="popover"]').popover()
-        })
-    </script>
 </head>
+<style>
+    h1 {
+        text-align: center;
+        margin-top: 2em;
+        margin-bottom: 1em;
+    }
+
+    .footer {
+        text-align: center;
+        margin-top: 2em;
+        margin-bottom: 2em;
+        width: 100%;
+    }
+</style>
 
 <body>
-    <div class="card">
-        <h5 class="card-header">🔗 Shorten your URLs!</h5>
-        <div class="card-body">
-            <h5 class="card-title">Please enter the long URL to be shortened:</h5>
+    <h1>🔗 URL Shortener</h1>
+
+    <div class="col-9 col-xxl-3 mx-auto">
+        <div class="alert alert-primary" role="alert" id="alert" hidden></div>
+
+        <form id="form" onsubmit="shortenUrl()">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Example: https://example.com/" id="text">
-                <div class="input-group-append">
-                    <button class="btn btn-primary" type="button" onclick='shorturl()' id="searchbtn">Shorten
-                        it</button>
+                <label for="basic-url" class="form-label">URL</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="https://example.com" id="url"
+                        aria-label="https://example.com" aria-describedby="button-addon2" required>
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon2"
+                        onclick="copyToClipboard()">Copy</button>
                 </div>
             </div>
-            <div class="card-text">
-                Fork me on <a href="https://github.com/L480/url-shortener" target="_blank">GitHub</a><br>
-                Frontend made by <a href="https://github.com/xyTom/Url-Shorten-Worker/blob/gh-pages/index.html"
-                    target="_blank">xyTom</a>
+
+            <div class="mb-3">
+                <label for="basic-url" class="form-label">Custom Alias <i>(optional)</i></label>
+                <div class="input-group">
+                    <span class="input-group-text" id="current-url"></span>
+                    <input type="text" class="form-control" id="alias" aria-describedby="basic-addon3 basic-addon4">
+                </div>
+                <div id="help-block" class="form-text">Existing aliases will be overwritten.</div>
             </div>
-            <p id="notice"></p>
-        </div>
+
+            <button class="btn btn-primary" type="submit" id="button">
+                <span class="spinner-border spinner-border-sm" aria-hidden="true" id="button-spinner"
+                    hidden="true"></span>
+                <span role="status" id="button-text">Shorten</span>
+            </button>
+        </form>
     </div>
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Result</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="result">No result</div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick='copyurl("result")' data-toggle="popover"
-                        data-placement="bottom" data-content="Copied!">Copy</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
+
+    <div class="footer">
+        <a href="https://github.com/L480/url-shortener" target="_blank"><img style="height: 1.5em; width: auto;"
+                src="https://upload.wikimedia.org/wikipedia/commons/c/c2/GitHub_Invertocat_Logo.svg"></a>
     </div>
-    <script src="https://gcore.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.slim.min.js"
-        integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
-    <script src="https://gcore.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-    <script src="https://gcore.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
-        integrity="sha256-WqU1JavFxSAMcLP2WIOI+GB2zWmShMI82mTpLDcqFUg=" crossorigin="anonymous"></script>
 </body>
+<script>
+    const currentUrl = 'https://' + window.location.host + '/';
+    document.getElementById('current-url').textContent = currentUrl;
+
+    async function copyToClipboard() {
+        const url = document.getElementById('url').value;
+        await navigator.clipboard.writeText(url);
+    }
+
+    async function shortenUrl() {
+        event.preventDefault();
+        if (document.getElementById('url').value.startsWith(currentUrl)) {
+            return;
+        }
+        document.getElementById('button').disabled = true;
+        document.getElementById('button-spinner').hidden = false;
+        document.getElementById('button-text').innerHTML = 'Shortening ...';
+        let requestBody;
+        if (document.getElementById('alias').value) {
+            requestBody = {
+                url: document.getElementById('url').value,
+                alias: document.getElementById('alias').value
+            }
+        } else {
+            requestBody = {
+                url: document.getElementById('url').value,
+            }
+        }
+        await fetch(window.location.href, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(requestBody)
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                document.getElementById('button').disabled = false;
+                document.getElementById('button-spinner').hidden = true;
+                document.getElementById('button-text').innerHTML = 'Shorten';
+
+                if (data.status == 'success') {
+                    const url = 'https://' + window.location.host + '/' + data.alias;
+                    document.getElementById('url').value = url;
+                    document.getElementById('url').setAttribute('class', 'form-control is-valid');
+                    setTimeout(function () { document.getElementById('url').setAttribute('class', 'form-control'); }, 2000);
+                } else {
+                    document.getElementById('alert').setAttribute('class', 'alert alert-danger');
+                    document.getElementById('alert').innerHTML = data.message;
+                    document.getElementById('alert').hidden = false;
+                }
+            }).catch(function (err) {
+                document.getElementById('button').disabled = false;
+                document.getElementById('button-spinner').hidden = true;
+                document.getElementById('button-text').innerHTML = 'Shorten';
+                document.getElementById('alert').setAttribute('class', 'alert alert-danger');
+                document.getElementById('alert').innerHTML = 'Unknow error. Please try again!';
+                document.getElementById('alert').hidden = false;
+                console.log(err);
+            });
+        setTimeout(function () { document.getElementById("alert").hidden = true; }, 5000);
+    }
+</script>
 
 </html>
 `
