@@ -29,7 +29,7 @@ Grab your Worker URL and go to `https://url-shortener.my-account.workers.dev/sho
 
 ### Shorten URL
 
-#### HTTP request
+#### HTTP Request
 
 ```http
 POST /shorten
