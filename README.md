@@ -25,6 +25,45 @@ Grab your Worker URL and go to `https://url-shortener.my-account.workers.dev/sho
 
 ![Shorten Your First URL](/images/shorten-url.png "Shorten Your First URL")
 
+## API
+
+### Shorten URL
+
+#### HTTP request
+
+```http
+POST /shorten
+```
+
+#### Request Body
+
+##### Random Alias
+
+```json
+{
+    "url": "https://google.com"
+}
+```
+
+##### Custom Alias
+
+```json
+{
+    "url": "https://google.com",
+    "alias": "hZk"
+}
+```
+
+#### Response
+
+```json
+{
+    "status": "success",
+    "message": "Alias has been created.",
+    "alias": "hZk"
+}
+```
+
 ## FAQ
 
 - How long are the shortened URLs?
