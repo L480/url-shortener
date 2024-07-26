@@ -2,7 +2,7 @@
 import { Hono } from 'hono'
 import { z } from 'zod'
 import { zValidator } from '@hono/zod-validator'
-import { frontendHtml, redirectHtml } from './html'
+import { frontendHtml, notFoundHtml, redirectHtml } from './html'
 import { validateUrl, saveUrl, overwriteUrl } from './helpers'
 import { config } from './config'
 
@@ -13,7 +13,7 @@ const schema = z.object({
 
 const app = new Hono<{ Bindings: Bindings }>()
 
-app.notFound((c) => c.text('Not found.', 404))
+app.notFound((c) => c.html(notFoundHtml, 404))
 
 app.post(config.frontendRoute, zValidator('json', schema), async (c) => {
     const body = c.req.valid('json')
@@ -43,7 +43,7 @@ app.get('/*', async (c) => {
             const redirect = redirectHtml.replace(/{Replace}/gm, metadata.url) // Hide referrer header
             return c.html(redirect)
         } else {
-            return c.text('Not found.', 404)
+            return c.html(notFoundHtml, 404)
         }
     }
 })

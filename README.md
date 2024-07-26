@@ -76,3 +76,5 @@ POST /shorten
     - Only increase [`ALIAS_LENGTH`](wrangler.toml#L14) if your KV namespace is empty, otherwise duplicated aliases are being created.
 - Are the aliases the same across all deployed workers?
     - If you don't change the [`SALT`](wrangler.toml#L15) variable, the aliases will be the same.
+- Can I change the `/shorten` route?
+    - Yes, the `/shorten` route can be overwritten in [config.ts](src/config.ts#L2).
