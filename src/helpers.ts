@@ -28,7 +28,7 @@ async function createHash(str: string, salt: string) {
     const hashArray = Array.from(new Uint8Array(hashBuffer))
     const hashString = hashArray.map(byte => String.fromCharCode(byte)).join('')
     const hashBase64 = btoa(hashString)
-    const finalHash = hashBase64.replace(/\+|\/|=/g, '')
+    const finalHash = hashBase64.replace(/\+|\/|=|l|1|I|0|o|O|g|q/g, '')
     return finalHash
 }
 
