@@ -1,12 +1,12 @@
-name: Deploy to Cloudflare Workers
+name: Cloudflare Workers Deployment
 on:
   push:
   pull_request:
   repository_dispatch:
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-    name: Build and deploy
+    name: Cloudflare Workers Deployment
     steps:
       - name: Check out repository
         uses: actions/checkout@v4

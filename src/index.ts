@@ -6,12 +6,12 @@ import { frontendHtml, notFoundHtml, redirectHtml } from './html'
 import { validateUrl, saveUrl, overwriteUrl } from './helpers'
 import { config } from './config'
 
-const schema = z.object({
+export const schema = z.object({
     url: z.string(),
     alias: z.string().optional(),
 })
 
-const app = new Hono<{ Bindings: Bindings }>()
+export const app = new Hono<{ Bindings: Bindings }>()
 
 app.notFound((c) => c.html(notFoundHtml, 404))
 

@@ -8,7 +8,8 @@
     "strict": true,
     "types": [
       "node",
-      "@cloudflare/workers-types"
+      "@cloudflare/workers-types",
+      "@types/jest"
     ],
     "lib": [
       "esnext"
