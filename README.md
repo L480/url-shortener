@@ -1,5 +1,7 @@
 # 🔗 url-shortener
 
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/l480/url-shortener/test.yml?label=E2E%20Test)
+
 Serverless URL shortener based on Cloudflare Workers and Cloudflare Workers KV.
 
 ![url-shortener](/images/header.png "url-shortener")
