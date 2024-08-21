@@ -1,4 +1,4 @@
-import { app, schema } from '../src'
+import { app } from '../src'
 import { frontendHtml, notFoundHtml, redirectHtml } from '../src/html'
 
 it('test url shortening', async () => {

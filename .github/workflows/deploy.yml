@@ -1,7 +1,6 @@
 name: Cloudflare Workers Deployment
 on:
-  push:
-  pull_request:
+  # push:
   repository_dispatch:
 jobs:
   deploy:
