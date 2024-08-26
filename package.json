@@ -11,6 +11,6 @@
     "typescript": "^5.5.4",
     "@cloudflare/workers-types": "^4.20240815.0",
     "@types/jest": "^29.5.12",
-    "ts-jest": "^29.2.4"
+    "ts-jest": "^29.2.5"
   }
 }
