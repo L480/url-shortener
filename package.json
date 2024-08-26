@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "typescript": "^5.5.4",
-    "@cloudflare/workers-types": "^4.20240815.0",
+    "@cloudflare/workers-types": "^4.20240821.1",
     "@types/jest": "^29.5.12",
     "ts-jest": "^29.2.5"
   }
