@@ -5,12 +5,12 @@
   },
   "dependencies": {
     "@hono/zod-validator": "^0.4.3",
-    "hono": "^4.7.4"
+    "hono": "^4.7.5"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250313.0",
+    "@cloudflare/workers-types": "^4.20250327.0",
     "@types/jest": "^29.5.14",
-    "ts-jest": "^29.2.6",
+    "ts-jest": "^29.3.0",
     "typescript": "^5.8.2",
     "wrangler": "^4.6.0"
   }
