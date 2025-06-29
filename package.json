@@ -8,7 +8,7 @@
     "hono": "^4.8.3"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250525.0",
+    "@cloudflare/workers-types": "^4.20250620.0",
     "@types/jest": "^29.5.14",
     "ts-jest": "^29.4.0",
     "typescript": "^5.8.3",
