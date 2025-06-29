@@ -12,6 +12,6 @@
     "@types/jest": "^29.5.14",
     "ts-jest": "^29.4.0",
     "typescript": "^5.8.3",
-    "wrangler": "^4.16.1"
+    "wrangler": "^4.20.5"
   }
 }
